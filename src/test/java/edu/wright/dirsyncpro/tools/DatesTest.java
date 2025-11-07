@@ -11,14 +11,12 @@ import org.junit.Test;
  */
 public class DatesTest {
 
-    private Date testDate = Dates.add(new Date(), Calendar.HOUR, -8);
-    private Date now = new Date();
+    Date testDate = Dates.add(new Date(), Calendar.HOUR, -8);
+    Date now = new Date();
 
     @Test
     public void testCmpDates() {
         System.out.println("cmpDates");
-        long fAD = 0L;
-        long fBD = 0L;
         int gran = 0;
         boolean idlsgran = false;
         assert Dates.cmpDates(testDate.getTime(), testDate.getTime(), gran, idlsgran) == 0;
