@@ -9,9 +9,9 @@ import org.junit.Test;
  *
  * @author Joe Hendrix <hendrix.11@wright.edu>
  */
-public class DateToolTest {
+public class DatesTest {
 
-    private Date testDate = DateTool.add(new Date(), Calendar.HOUR, -8);
+    private Date testDate = Dates.add(new Date(), Calendar.HOUR, -8);
     private Date now = new Date();
 
     @Test
@@ -21,13 +21,13 @@ public class DateToolTest {
         long fBD = 0L;
         int gran = 0;
         boolean idlsgran = false;
-        assert DateTool.cmpDates(testDate.getTime(), testDate.getTime(), gran, idlsgran) == 0;
+        assert Dates.cmpDates(testDate.getTime(), testDate.getTime(), gran, idlsgran) == 0;
     }
 
     @Test
     public void testGetNextCompleteHour() {
         System.out.println("getNextCompleteHour");
-        Date result = DateTool.getNextCompleteHour();
+        Date result = Dates.getNextCompleteHour();
         assert result.after(now) : "result: " + result + "\tbefore: " + now;
 
         Calendar cal = Calendar.getInstance();
@@ -39,7 +39,7 @@ public class DateToolTest {
     @Test
     public void testGetNextDayAtThisTime() {
         System.out.println("getNextDayAtThisTime");
-        Date result = DateTool.getNextDayAtThisTime(testDate);
+        Date result = Dates.getNextDayAtThisTime(testDate);
 
         Calendar resultCal = Calendar.getInstance();
         resultCal.setTime(result);
@@ -56,7 +56,7 @@ public class DateToolTest {
     public void testGetNextDateAtThisTimeAndNumber() {
         System.out.println("getNextDateAtThisTimeAndNumber");
         int day = 15;
-        Date result = DateTool.getNextDateAtThisTimeAndNumber(testDate, day, new Date());
+        Date result = Dates.getNextDateAtThisTimeAndNumber(testDate, day, new Date());
         assert result.after(testDate);
 
         Calendar resultCal = Calendar.getInstance();
@@ -75,7 +75,7 @@ public class DateToolTest {
     @Test
     public void testGetNextCompleteHour_Date() {
         System.out.println("getNextCompleteHour");
-        Date result = DateTool.getNextCompleteHour(testDate);
+        Date result = Dates.getNextCompleteHour(testDate);
         assert result.after(testDate);
 
         Calendar cal = Calendar.getInstance();
@@ -90,9 +90,9 @@ public class DateToolTest {
 
         int field = Calendar.DATE;
         int amount = 5;
-        Date result = DateTool.add(testDate, field, amount);
+        Date result = Dates.add(testDate, field, amount);
         assert result.after(testDate) : "result: " + result + "\tbefore: " + testDate;
-        result = DateTool.add(result, field, -amount);
+        result = Dates.add(result, field, -amount);
         assert result.equals(testDate) : "result: " + result + "\tbefore: " + testDate;
     }
 }

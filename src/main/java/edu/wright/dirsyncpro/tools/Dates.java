@@ -23,11 +23,7 @@ import edu.wright.dirsyncpro.Const;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateTool {
-
-    // Don't let anyone instantiate this class.
-    private DateTool() {
-    }
+public interface Dates {
 
     /**
      * Compares the given dates. Dates are only accurate to the second;
