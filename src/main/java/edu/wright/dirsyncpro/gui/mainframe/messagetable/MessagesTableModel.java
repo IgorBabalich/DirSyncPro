@@ -76,7 +76,7 @@ public class MessagesTableModel extends AbstractTableModel {
         }
 
         String item = "";
-        Message mes = DirSyncPro.getSync().getLog().getMessages().getFilteredView(row);
+        Message mes = DirSyncPro.getSync().getLog().getMessages().get(row);
 
         switch (column) {
             case 0:

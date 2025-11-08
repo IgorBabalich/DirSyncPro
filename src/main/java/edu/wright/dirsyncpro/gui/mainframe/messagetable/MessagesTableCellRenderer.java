@@ -36,7 +36,7 @@ public class MessagesTableCellRenderer implements TableCellRenderer {
             return null;
         }
 
-        Message mes = DirSyncPro.getSync().getLog().getMessages().getFilteredView(row);
+        Message mes = DirSyncPro.getSync().getLog().getMessages().get(row);
 
         cell = new JLabel();
         cell.setText(String.valueOf(value));

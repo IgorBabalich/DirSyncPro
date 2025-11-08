@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class MessageQ {
 
-    private ArrayList<Message> messagesQ;
+    private final ArrayList<Message> messagesQ;
     private ArrayList<Message> messagesQViewFiltered;
     private HashMap<IconKey, Boolean> viewFilterMode;
     private boolean viewFiltered;
@@ -46,7 +46,7 @@ public class MessageQ {
         }
     }
 
-    public Message getFilteredView(int i) {
+    public Message get(int i) {
         if (viewFiltered) {
             return messagesQViewFiltered.get(i);
         } else {
