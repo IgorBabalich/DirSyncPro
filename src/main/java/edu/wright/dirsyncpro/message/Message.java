@@ -33,16 +33,14 @@ import java.util.Date;
  * @author O. Givi (info@dirsyncpro.org)
  */
 public class Message {
-
-    private String dateStr;
-    private String message;
+    private final Date dateTime;
+    private final String message;
     private Icon icon;
-    private IconKey iconKey;
-    private LogLevel loglevel;
+    private final IconKey iconKey;
+    private final LogLevel loglevel;
 
     public Message(String m, IconKey ik, LogLevel l) {
-        Date date = new Date();
-        dateStr = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(date);
+        dateTime = new Date();
         message = m;
         iconKey = ik;
         if (iconKey != null) {
@@ -55,7 +53,8 @@ public class Message {
      * @return the date
      */
     public String getDateStr() {
-        return dateStr;
+        final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormatter.format(dateTime);
     }
 
     /**
