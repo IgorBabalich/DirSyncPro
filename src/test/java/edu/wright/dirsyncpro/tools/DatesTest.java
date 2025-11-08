@@ -3,7 +3,7 @@ package edu.wright.dirsyncpro.tools;
 
 import java.util.Calendar;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 
 /**
  *

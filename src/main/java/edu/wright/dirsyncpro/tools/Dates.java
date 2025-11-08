@@ -39,7 +39,7 @@ public interface Dates {
      * int {@code 0} if the dates are the same; int {@code 1} if the second date
      * is newer than the first one.
      */
-    public static int cmpDates(long fAD, long fBD, int gran, boolean idlsgran) {
+    static int cmpDates(long fAD, long fBD, int gran, boolean idlsgran) {
         long srcLastModified, dstLastModified, diff, offset;
 
         // convert to seconds
@@ -62,11 +62,11 @@ public interface Dates {
         }
     }
 
-    public static Date getNextCompleteHour() {
+    static Date getNextCompleteHour() {
         return getNextCompleteHour(new Date());
     }
 
-    public static Date getNextDayAtThisTime(Date time) {
+    static Date getNextDayAtThisTime(Date time) {
         Calendar timeCal = Calendar.getInstance();
         timeCal.setTime(time);
         Calendar cal = Calendar.getInstance();
@@ -81,7 +81,7 @@ public interface Dates {
         return cal.getTime();
     }
 
-    public static Date getNextDateAtThisTimeAndNumber(Date time, int day, Date date) {
+    static Date getNextDateAtThisTimeAndNumber(Date time, int day, Date date) {
         Calendar timeCal = Calendar.getInstance();
         timeCal.setTime(time);
         Calendar cal = Calendar.getInstance();
@@ -98,7 +98,7 @@ public interface Dates {
         return cal.getTime();
     }
 
-    public static Date getNextCompleteHour(Date time) {
+    static Date getNextCompleteHour(Date time) {
         Calendar timeCal = Calendar.getInstance();
         timeCal.setTime(time);
         Calendar cal = Calendar.getInstance();
@@ -111,7 +111,7 @@ public interface Dates {
         return cal.getTime();
     }
 
-    public static Date add(Date time, int field, int amount) {
+    static Date add(Date time, int field, int amount) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(time);
         cal.add(field, amount);
