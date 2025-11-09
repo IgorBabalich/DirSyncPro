@@ -97,12 +97,12 @@ public class MainFrame extends MainFrameObjects {
     protected File currentConfig; // for open/save dialog
     // whether the directory is being updated from the gui
     protected boolean isUpdateDirFromGui = true;
-    private JobDialog jobDialog = new JobDialog(this);
-    private SettingsDialog settingsDialog = new SettingsDialog(this);
-    private LicenseDialog licenseDialog = new LicenseDialog(this);
-    private UpdateDialog updateDialog = new UpdateDialog(this);
-    private CMDDialog cmdDialog = new CMDDialog(this);
-    private ShutDownDialog shutDownDialog = new ShutDownDialog(this);
+    private final JobDialog jobDialog = new JobDialog(this);
+    private final SettingsDialog settingsDialog = new SettingsDialog(this);
+    private final LicenseDialog licenseDialog = new LicenseDialog(this);
+    private final UpdateDialog updateDialog = new UpdateDialog(this);
+    private final CMDDialog cmdDialog = new CMDDialog(this);
+    private final ShutDownDialog shutDownDialog = new ShutDownDialog(this);
     private int progressTotalValue;
     private int progressTotalMax;
     private int progressTotalAdd;
@@ -120,8 +120,8 @@ public class MainFrame extends MainFrameObjects {
     private int prevProgessCurrentMax;
     private String prevProgessCurrentString;
     private boolean prevProgessCurrentIndeterminate;
-    private boolean progressbarUpdated = false;
-    private AtomicBoolean updatingGUI = new AtomicBoolean(false);
+    private final boolean progressbarUpdated = false;
+    private final AtomicBoolean updatingGUI = new AtomicBoolean(false);
     private boolean currentConfigAlreadyAccessed = false;
     private Updater u;
 
@@ -488,14 +488,14 @@ public class MainFrame extends MainFrameObjects {
     @Override
     protected void messagesQViewFilterChanged(boolean reset) {
         if (reset) {
-            DirSyncPro.getSync().getLog().getMessages().initMessageQViewFilter();
+            DirSyncPro.getSync().getLog().getMessages().initViewFilter();
             updateGuiFromMessagesQViewFilter();
         } else {
             MessageQ mq = DirSyncPro.getSync().getLog().getMessages();
-            mq.setMessagesQViewFilterMode(IconKey.Info, messagesViewFilterInfosCheckBox.isSelected());
-            mq.setMessagesQViewFilterMode(IconKey.Warning, messagesViewFilterWarningsCheckBox.isSelected());
-            mq.setMessagesQViewFilterMode(IconKey.Error, messagesViewFilterErrorsCheckBox.isSelected());
-            mq.setMessagesQViewFilterMode(IconKey.File, messagesViewFilterFileOperationsCheckBox.isSelected());
+            mq.setFilteredBy(IconKey.Info, messagesViewFilterInfosCheckBox.isSelected());
+            mq.setFilteredBy(IconKey.Warning, messagesViewFilterWarningsCheckBox.isSelected());
+            mq.setFilteredBy(IconKey.Error, messagesViewFilterErrorsCheckBox.isSelected());
+            mq.setFilteredBy(IconKey.File, messagesViewFilterFileOperationsCheckBox.isSelected());
             DirSyncPro.getSync().getLog().getMessages().viewFilter();
         }
         messagesTable.revalidate();
@@ -523,10 +523,10 @@ public class MainFrame extends MainFrameObjects {
 
     public void updateGuiFromMessagesQViewFilter() {
         MessageQ mq = DirSyncPro.getSync().getLog().getMessages();
-        messagesViewFilterInfosCheckBox.setSelected(mq.getMessagesQViewFilterMode(IconKey.Info));
-        messagesViewFilterWarningsCheckBox.setSelected(mq.getMessagesQViewFilterMode(IconKey.Warning));
-        messagesViewFilterErrorsCheckBox.setSelected(mq.getMessagesQViewFilterMode(IconKey.Error));
-        messagesViewFilterFileOperationsCheckBox.setSelected(mq.getMessagesQViewFilterMode(IconKey.File));
+        messagesViewFilterInfosCheckBox.setSelected(mq.isFilteredBy(IconKey.Info));
+        messagesViewFilterWarningsCheckBox.setSelected(mq.isFilteredBy(IconKey.Warning));
+        messagesViewFilterErrorsCheckBox.setSelected(mq.isFilteredBy(IconKey.Error));
+        messagesViewFilterFileOperationsCheckBox.setSelected(mq.isFilteredBy(IconKey.File));
     }
 
     public void updateGuiFromSyncQViewFilter() {
@@ -1031,7 +1031,7 @@ public class MainFrame extends MainFrameObjects {
 
                         // Pattern file extension
                         if (file.isFile() && filename.lastIndexOf(".") > 0) {
-                            final String extension = "*" + filename.substring(filename.lastIndexOf("."), filename.length());
+                            final String extension = "*" + filename.substring(filename.lastIndexOf("."));
                             menuItem = new JMenuItem("Extension: " + extension);
                             menuItem.addActionListener(e -> {
                                 FilterByPattern filter = new FilterByPattern(sp.getJob(), Filter.Action.Exclude);
@@ -1865,7 +1865,7 @@ public class MainFrame extends MainFrameObjects {
         if (currentMax != -1) {
             progressCurrentMax = currentMax;
         }
-        if (currentString != null && !currentString.isEmpty() || currentString == null) {
+        if (currentString == null || !currentString.isEmpty()) {
             progressCurrentString = currentString;
         }
         progressCurrentIndeterminate = currentIndeterminate;

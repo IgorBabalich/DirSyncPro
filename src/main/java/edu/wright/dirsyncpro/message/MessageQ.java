@@ -12,80 +12,77 @@ import java.util.HashMap;
  */
 public class MessageQ {
 
-    private final ArrayList<Message> messagesQ;
-    private ArrayList<Message> messagesQViewFiltered;
-    private HashMap<IconKey, Boolean> viewFilterMode;
-    private boolean viewFiltered;
+    private final ArrayList<Message> messages;
+    private ArrayList<Message> filteredMessages;
+    private HashMap<IconKey, Boolean> filteredBy;
+    // TODO: replace by the function?
+    private boolean viewIsFiltered;
 
     public MessageQ() {
-        messagesQ = new ArrayList<>();
-        initMessageQViewFilter();
+        messages = new ArrayList<>();
+        initViewFilter();
     }
 
     /**
      * initializes the viewFilterMode to defaults
      */
-    public void initMessageQViewFilter() {
-        viewFilterMode = new HashMap<>();
-        viewFilterMode.put(IconKey.Info, true);
-        viewFilterMode.put(IconKey.Warning, true);
-        viewFilterMode.put(IconKey.Error, true);
-        viewFilterMode.put(IconKey.File, true);
+    public void initViewFilter() {
+        filteredBy = new HashMap<>();
+        filteredBy.put(IconKey.Info, true);
+        filteredBy.put(IconKey.Warning, true);
+        filteredBy.put(IconKey.Error, true);
+        filteredBy.put(IconKey.File, true);
         viewFilter();
     }
 
     public boolean add(Message m) {
-        return messagesQ.add(m);
+        return messages.add(m);
     }
 
     public int viewSize() {
-        if (viewFiltered) {
-            return messagesQViewFiltered.size();
+        if (viewIsFiltered) {
+            return filteredMessages.size();
         } else {
-            return messagesQ.size();
+            return messages.size();
         }
     }
 
     public Message get(int i) {
-        if (viewFiltered) {
-            return messagesQViewFiltered.get(i);
+        if (viewIsFiltered) {
+            return filteredMessages.get(i);
         } else {
-            return messagesQ.get(i);
+            return messages.get(i);
         }
     }
 
+    // TODO: looks like the flip/flop works incorrectly. review when working with UI
     public void viewFilter() {
-        if (getMessagesQViewFilterMode(IconKey.Info)
-                && getMessagesQViewFilterMode(IconKey.Warning)
-                && getMessagesQViewFilterMode(IconKey.Error)
-                && getMessagesQViewFilterMode(IconKey.File)) {
-            viewFiltered = false;
+        if (isFilteredBy(IconKey.Info)
+                && isFilteredBy(IconKey.Warning)
+                && isFilteredBy(IconKey.Error)
+                && isFilteredBy(IconKey.File)) {
+            viewIsFiltered = false;
         } else {
-            viewFiltered = true;
-            messagesQViewFiltered = new ArrayList<>();
-            for (Message m : messagesQ) {
-                if (viewFilterMode.get(m.getIconKey().mapForMessageQ())) {
-                    messagesQViewFiltered.add(m);
+            viewIsFiltered = true;
+            filteredMessages = new ArrayList<>();
+            for (Message m : messages) {
+                if (filteredBy.get(m.getIconKey().mapForMessageQ())) {
+                    filteredMessages.add(m);
                 }
             }
         }
     }
 
-    /**
-     * @param ik the IconKey
-     *
-     * @return boolean if the view filter for ik is set
-     */
-    public boolean getMessagesQViewFilterMode(IconKey ik) {
-        return viewFilterMode.get(ik);
+    public boolean isFilteredBy(IconKey ik) {
+        return filteredBy.get(ik);
     }
 
     /**
      * @param ik the IconKey to set the value for
      * @param b boolean value to set
      */
-    public void setMessagesQViewFilterMode(IconKey ik, boolean b) {
-        viewFilterMode.put(ik, b);
+    public void setFilteredBy(IconKey ik, boolean b) {
+        filteredBy.put(ik, b);
     }
 
 }
