@@ -41,14 +41,12 @@ public class Const {
     public static final String PROGRAM = "DirSync Pro " + VERSION;
     public static final String dspHomeDir = ".DirSyncPro";
     public static final int DEFAULT_GRANULARITY_TOLERANCE = 2;
-    /**
-     * The name of the properties file.
-     */
+
     public static final String PROPERTIES_FILENAME = "dirsyncpro.properties";
     public static final int DefaultRealtimeSyncDelayValue = 60;
-    public static final String DefaultDateFormat = "dd-MM-yyyy HH:mm";
-    public static final String DefaultDateShortFormat = "dd-MM-yy HH:mm";
-    public static final String DefaultDateLongFormat = "dd-MM-yyyy HH:mm:ss";
+    public static final String DefaultDateFormat = "yyyy-MM-dd HH:mm";
+    public static final String DefaultDateShortFormat = "yy-MM-dd HH:mm";
+    public static final String DefaultDateLongFormat = "yyyy-MM-dd HH:mm:ss";
     public static final String DefaultTimeFormat = "HH:mm";
     public static final Date NonDate = new Date(0);
     public static final CompareMode COMPARE_MODE_DEFAULT = CompareMode.CompareFileSizesDates;
@@ -207,8 +205,8 @@ public class Const {
         ShutDownCommand("dirsyncpro.shutdown.command", Const.shutDownCommand),
         LastLoadedConfigs("dirsyncpro.lastloadedconfigs", "");
 
-        private String prString;
-        private String prDefault;
+        private final String prString;
+        private final String prDefault;
 
         Properties(String prst, String dflt) {
             prString = prst;
@@ -247,40 +245,28 @@ public class Const {
         ABCustom("Synchronize A -> B (custom)", "/icons/syncModeAB16x16.png"),
         BACustom("Synchronize B -> A (custom)", "/icons/syncModeBA16x16.png");
 
-        private String name;
-        private String literal;
-        private Icon icon;
+        private final String description;
+        private final Icon icon;
 
-        SyncMode(String name, String iconFile) {
-            this.name = name;
+        SyncMode(String description, String iconFile) {
+            this.description = description;
             this.icon = new ImageIcon(Const.class.getResource(iconFile));
-            this.literal = super.toString();
         }
 
         @Override
         public String toString() {
-            if (literal == null) {
-                literal = this + "";
-            }
-            return name;
+            return description;
         }
 
         public String toHTMLString() {
-            if (literal == null) {
-                literal = this + "";
-            }
-            String name = this.name;
-            name = name.replaceAll("<->", "<span style=\"font-family:Courier; font-weight:bold;\">&harr;</span>");
-            name = name.replaceAll("->", "<span style=\"font-family:Courier; font-weight:bold;\">&rarr;</span>");
+            String s = this.description;
+            s = s.replaceAll("<->", "<span style=\"font-family:Courier; font-weight:bold;\">&harr;</span>");
+            s = s.replaceAll("->", "<span style=\"font-family:Courier; font-weight:bold;\">&rarr;</span>");
 //			name = name.replaceAll("\\(incremental\\)", "<span style=\"color:258101\">(incremental)</span>");
 //			name = name.replaceAll("\\(full\\)", "<span style=\"color:258101\">(full)</span>");
-            name = name.replaceAll("\\(custom\\)", "<span style=\"color:blue\">(custom)</span>");
-            name = "<html>" + name + "</html>";
-            return name;
-        }
-
-        public String getLiteral() {
-            return literal;
+            s = s.replaceAll("\\(custom\\)", "<span style=\"color:blue\">(custom)</span>");
+            s = "<html>" + s + "</html>";
+            return s;
         }
 
         public Icon getIcon() {
@@ -316,7 +302,7 @@ public class Const {
         DeleteDirs("Delete unnecessary dirs after synchronization"),
         ConflictFiles("Conflict files"); //
 
-        private String name;
+        private final String name;
 
         CopyMode(String name) {
             this.name = name;
@@ -333,8 +319,8 @@ public class Const {
         CopySymLinks("Copy Symbolic links"),
         FollowSymLinks("Follow Symbolic links");
 
-        private String name;
-        private String literal;
+        private final String name;
+        private final String literal;
 
         SymLinkMode(String name) {
             this.name = name;
@@ -384,11 +370,11 @@ public class Const {
         ConflictResolutionWarn(false, true, true, "Conflict resolution by warning the user", "/icons/syncpairstatus_biw.png", new Color(255, 255, 185)),
         ConflictResolutionCopySourceA(false, true, true, "Conflictt resolution by copying the source", "/icons/syncpairstatus_faa.png", new Color(255, 255, 185)),
         ConflictResolutionCopySourceB(false, true, true, "Conflict resolution by copying the source", "/icons/syncpairstatus_fba.png", new Color(255, 255, 185)),;
-        private String name;
-        private Icon icon;
-        private Color color;
-        private boolean isFileOperation;
-        private boolean ab;
+        private final String name;
+        private final Icon icon;
+        private final Color color;
+        private final boolean isFileOperation;
+        private final boolean ab;
 
         SyncPairStatus(boolean isFO, boolean isDO, boolean isAB, String name, String iconFile, Color c) {
             this.isFileOperation = isFO;
@@ -458,7 +444,9 @@ public class Const {
      * log level
      */
     public enum LogLevel {
-        Minimal, Moderate, Excessive
+        Minimal,
+        Moderate,
+        Excessive
     }
 
     public enum FileType {
@@ -466,8 +454,8 @@ public class Const {
         SH("sh", "bash script"),
         CMD("cmd", "MS Windows command line batch");
 
-        private String extension;
-        private String description;
+        private final String extension;
+        private final String description;
 
         FileType(String ext, String descr) {
             this.extension = ext;
@@ -500,11 +488,11 @@ public class Const {
         Time("/icons/time.png", new Color(255, 255, 255)),
         Synced("/icons/syncpairstatus_synced.png", new Color(185, 255, 185));
 
-        private Icon icon;
-        private Color color;
+        private final Icon icon;
+        private final Color color;
 
         IconKey(String iconFile, Color c) {
-            this.icon = new ImageIcon(Const.class.getResource(iconFile));
+            this.icon = new ImageIcon(Const.class.getResource(iconFile), this.toString());
             this.color = c;
         }
 
