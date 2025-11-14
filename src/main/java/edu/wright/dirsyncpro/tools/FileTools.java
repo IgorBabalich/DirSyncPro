@@ -58,7 +58,7 @@ public class FileTools {
     private static final int BUFFER_SIZE = 1024 * 1024;
 
     // a buffer for the copy method
-    private static byte[] buffers = new byte[BUFFER_SIZE];
+    private static final byte[] buffers = new byte[BUFFER_SIZE];
 
     // Don't let anyone instantiate this class.
     private FileTools() {
@@ -380,7 +380,7 @@ public class FileTools {
         if (filename == null || filename.isEmpty()) {
             return "";
         }
-        filename = filename.substring(filename.lastIndexOf(File.separator) + 1, filename.length());
+        filename = filename.substring(filename.lastIndexOf(File.separator) + 1);
         if (filename.lastIndexOf('.') == -1) {
             return filename;
         }
@@ -402,7 +402,7 @@ public class FileTools {
         if (filename.lastIndexOf('.') == -1) {
             return "";
         }
-        return filename.substring(filename.lastIndexOf('.') + 1, filename.length()).toLowerCase();
+        return filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
     }
 
     /**
@@ -461,7 +461,7 @@ public class FileTools {
         String pathFilenameExtension = file.getCanonicalPath();
 
         String path = file.getParentFile().getCanonicalPath();
-        path = path.substring(dst.length(), path.length());
+        path = path.substring(dst.length());
         String filename = getOnlyFilename(pathFilenameExtension);
         String extension = getOnlyExtension(pathFilenameExtension);
         String count = new DecimalFormat("00").format(backupCount);

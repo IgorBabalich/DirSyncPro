@@ -33,7 +33,7 @@ import java.util.HashMap;
  */
 public class SyncQ {
 
-    private ArrayList<SyncPair> syncQ;
+    private final ArrayList<SyncPair> syncQ;
     private ArrayList<SyncPair> syncQViewFiltered;
     private ArrayList<SyncPair> syncQSyncFiltered;
     private HashMap<CopyMode, Boolean> viewFilterMode;

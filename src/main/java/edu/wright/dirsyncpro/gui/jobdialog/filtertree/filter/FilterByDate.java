@@ -183,7 +183,7 @@ public class FilterByDate extends Filter {
         Weeks(Calendar.WEEK_OF_YEAR),
         Months(Calendar.MONTH);
 
-        private int value;
+        private final int value;
 
         FilterTimeUnitType(int value) {
             this.value = value;

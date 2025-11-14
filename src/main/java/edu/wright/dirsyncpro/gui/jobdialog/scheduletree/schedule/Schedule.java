@@ -27,9 +27,9 @@ import javax.swing.ImageIcon;
 
 public class Schedule implements Comparable<Schedule> {
 
-    protected Type type;
-    protected Date timeFrameFrom = Const.NonDate;
-    protected Date timeFrameTo = Const.NonDate;
+    protected ScheduleType scheduleType;
+    protected Date timeFrom = Const.NonDate;
+    protected Date timeTo = Const.NonDate;
     protected Date nextEvent;
     protected Date lastSynced;
     protected Job job;
@@ -38,36 +38,36 @@ public class Schedule implements Comparable<Schedule> {
     /**
      * @return the type
      */
-    public Type getType() {
-        return type;
+    public ScheduleType getType() {
+        return scheduleType;
     }
 
     /**
      * @return the timeFrameFrom
      */
-    public Date getTimeFrameFrom() {
-        return timeFrameFrom;
+    public Date getTimeFrom() {
+        return timeFrom;
     }
 
     /**
-     * @param timeFrameFrom the timeFrameFrom to set
+     * @param timeFrom the timeFrameFrom to set
      */
-    public void setTimeFrameFrom(Date timeFrameFrom) {
-        this.timeFrameFrom = timeFrameFrom;
+    public void setTimeFrom(Date timeFrom) {
+        this.timeFrom = timeFrom;
     }
 
     /**
      * @return the timeFrameTo
      */
-    public Date getTimeFrameTo() {
-        return timeFrameTo;
+    public Date getTimeTo() {
+        return timeTo;
     }
 
     /**
-     * @param timeFrameTo the timeFrameTo to set
+     * @param timeTo the timeFrameTo to set
      */
-    public void setTimeFrameTo(Date timeFrameTo) {
-        this.timeFrameTo = timeFrameTo;
+    public void setTimeTo(Date timeTo) {
+        this.timeTo = timeTo;
     }
 
     /**
@@ -91,38 +91,38 @@ public class Schedule implements Comparable<Schedule> {
      * Calculates and sets the next upcoming event date. method to be overriden
      * by extended classes.
      */
-    public void calculateNextEvent() {
+    public void scheduleNextEvent() {
+        throw  new UnsupportedOperationException("Schedule class is not to be used directly but by child classes.");
     }
 
     protected boolean withinTimeFrame(Date date) {
-        return (!hasTimeFrameFrom() || timeFrameFrom.compareTo(date) <= 0)
-                && (!hasTimeFrameTo() || timeFrameTo.compareTo(date) >= 0);
+        return (!timeFrom_isAssigned() || timeFrom.compareTo(date) <= 0)
+                && (!timeTo_isAssigned() || timeTo.compareTo(date) >= 0);
     }
 
-    public boolean hasTimeFrameFrom() {
-        return (timeFrameFrom.compareTo(Const.NonDate) != 0);
+    public boolean timeFrom_isAssigned() {
+        return (timeFrom.compareTo(Const.NonDate) != 0);
     }
 
-    public boolean hasTimeFrameTo() {
-        return (timeFrameTo.compareTo(Const.NonDate) != 0);
+    public boolean timeTo_isAssigned() {
+        return (timeTo.compareTo(Const.NonDate) != 0);
     }
 
     @Override
     public String toString() {
         String str = "";
-        if (timeFrameFrom.compareTo(Const.NonDate) != 0) {
-            str += ", from " + (new SimpleDateFormat(Const.DefaultDateFormat)).format(timeFrameFrom) + " ";
+        if (timeFrom_isAssigned()) {
+            str += "From: " + (new SimpleDateFormat(Const.DefaultDateFormat)).format(timeFrom);
         }
-        if (timeFrameTo.compareTo(Const.NonDate) != 0) {
-            str += ", to " + (new SimpleDateFormat(Const.DefaultDateFormat)).format(timeFrameTo);
+        if (timeTo_isAssigned()) {
+            str += " To: " + (new SimpleDateFormat(Const.DefaultDateFormat)).format(timeTo);
         }
-        str = str.trim();
         if (nextEvent != null) {
-            str += ", Next event: " + (new SimpleDateFormat(Const.DefaultDateFormat)).format(nextEvent);
+            str += " Next event: " + (new SimpleDateFormat(Const.DefaultDateFormat)).format(nextEvent);
         } else {
             str += " (EXPIRED)";
         }
-        return str;
+        return str.trim();
     }
 
     /**
@@ -136,7 +136,7 @@ public class Schedule implements Comparable<Schedule> {
     public int compareTo(Schedule s) {
         if (nextEvent.compareTo(s.getNextEvent()) == 0) {
             if (modificationTime.compareTo(s.getModificationTime()) == 0) {
-                return type.compareTo(s.getType());
+                return scheduleType.compareTo(s.getType());
             } else {
                 return modificationTime.compareTo(s.getModificationTime());
             }
@@ -156,11 +156,12 @@ public class Schedule implements Comparable<Schedule> {
         lastSynced = nextEvent;
     }
 
-    protected boolean calculateNextEventAllowed() {
+    protected boolean nextEvent_isAllowedToSchedule() {
+        
         return (nextEvent == null || (nextEvent == lastSynced));
     }
 
-    public enum Type {
+    public enum ScheduleType {
         Once("/icons/once.png"),
         Minutely("/icons/minutely.png"),
         Hourly("/icons/hourly.png"),
@@ -168,9 +169,9 @@ public class Schedule implements Comparable<Schedule> {
         Weekly("/icons/weekly.png"),
         Monthly("/icons/monthly.png");
 
-        private Icon icon;
+        private final Icon icon;
 
-        Type(String iconFile) {
+        ScheduleType(String iconFile) {
             this.icon = new ImageIcon(Const.class.getResource(iconFile));
         }
 

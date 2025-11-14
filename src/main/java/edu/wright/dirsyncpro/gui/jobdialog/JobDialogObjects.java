@@ -171,10 +171,10 @@ public abstract class JobDialogObjects extends JDialog {
     private void initComponents() {
         GridBagConstraints gridBagConstraints;
 
-        JPanel jPanels[] = new JPanel[200];
-        JPanel infoPanels[] = new JPanel[11];
-        JPanel spacers[] = new JPanel[30];
-        JTextPane jTextPanes[] = new JTextPane[15];
+        JPanel[] jPanels = new JPanel[200];
+        JPanel[] infoPanels = new JPanel[11];
+        JPanel[] spacers = new JPanel[30];
+        JTextPane[] jTextPanes = new JTextPane[15];
 
         for (int i = 0; i < jPanels.length; i++) {
             jPanels[i] = new JPanel();

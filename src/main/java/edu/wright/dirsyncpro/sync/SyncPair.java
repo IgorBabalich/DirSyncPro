@@ -32,17 +32,17 @@ import java.io.File;
  */
 public class SyncPair {
 
-    private File fileA;
+    private final File fileA;
     private long dateA;
     private long sizeA;
-    private File fileB;
+    private final File fileB;
     private long dateB;
     private long sizeB;
     private boolean fileAExists;
     private boolean fileBExists;
     private Const.SyncPairStatus syncPairStatus;
     private boolean synced;
-    private Job job;
+    private final Job job;
     private Icon icon = null;
 
     public SyncPair(File a, File b, boolean fAEx, boolean fBEx, long fADate, long fBDate, long fAS, long fBS, SyncPairStatus sps, Job j) {

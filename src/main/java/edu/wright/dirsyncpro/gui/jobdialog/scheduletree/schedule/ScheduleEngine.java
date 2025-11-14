@@ -35,16 +35,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ScheduleEngine {
 
-    private static ScheduleEngine realtimeInstance = new ScheduleEngine();
+    private static final ScheduleEngine realtimeInstance = new ScheduleEngine();
     Timer timer;
     boolean running;
     Schedule synchronizingSchedule;
-    private List<Schedule> scheduleQ;
-    private AtomicBoolean scheduleQUpdated = new AtomicBoolean(false);
+    private final List<Schedule> scheduleQ;
+    private final AtomicBoolean scheduleQUpdated = new AtomicBoolean(false);
     //job - job to be syncronized, Date - date, when synchronization needs to be done
     //Empty record for job means that it need another task to be created
     //if record exists then it need to be updated with a new date and rscheduled after current task completes
-    private HashMap<Job, Date> realtimeSchedule = new HashMap<>();
+    private final HashMap<Job, Date> realtimeSchedule = new HashMap<>();
 
     public ScheduleEngine() {
         scheduleQ = new ArrayList<>();
@@ -58,7 +58,7 @@ public class ScheduleEngine {
 
     public void addSchedules(Job job) {
         for (Schedule s : job.getSchedules()) {
-            s.calculateNextEvent();
+            s.scheduleNextEvent();
             if (s.getNextEvent() != null) {
                 scheduleQ.add(s);
             }
@@ -98,7 +98,7 @@ public class ScheduleEngine {
                 if (isRunning()) {
                     // still running? not stopped?
                     scheduleQ.remove(0);
-                    sched.calculateNextEvent();
+                    sched.scheduleNextEvent();
                     addSchedule(sched);
                 }
             }
@@ -211,7 +211,7 @@ public class ScheduleEngine {
 
                     //reschedule next attempt
                     Date restartDate = (Date) recentSyncDate.clone();
-                    restartDate.setTime(restartDate.getTime() + j.getSyncRealtimeDelay() * 1000 + 1000);
+                    restartDate.setTime(restartDate.getTime() + j.getSyncRealtimeDelay() * 1000L + 1000);
                     TimerTask tt = new TimerTaskRealtime();
                     timer.schedule(tt, restartDate);
                     return;

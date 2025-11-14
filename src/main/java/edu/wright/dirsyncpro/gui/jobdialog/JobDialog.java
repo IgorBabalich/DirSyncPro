@@ -51,7 +51,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -80,8 +79,8 @@ public class JobDialog extends JobDialogObjects {
     private static final int SCHEDULE_TAB_NO = 8;
     private static final int ADVANCED_TAB_NO = 9;
     private static List<Schedule> schedules = new ArrayList<>();
-    private FilterDialog filterDialog = new FilterDialog(this);
-    private ScheduleDialog scheduleDialog = new ScheduleDialog(this);
+    private final FilterDialog filterDialog = new FilterDialog(this);
+    private final ScheduleDialog scheduleDialog = new ScheduleDialog(this);
     private Job job;
 
     // temp vars for within the gui
@@ -816,7 +815,7 @@ public class JobDialog extends JobDialogObjects {
     public void addSchedule(Schedule sch) {
         schedules.add(sch);
         for (Schedule sched : schedules) {
-            sched.calculateNextEvent();
+            sched.scheduleNextEvent();
         }
         Collections.sort(schedules);
         updateScheduleTree();

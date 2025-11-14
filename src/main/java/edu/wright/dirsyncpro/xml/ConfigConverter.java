@@ -68,7 +68,7 @@ public class ConfigConverter {
 
         for (String action : new String[]{"include", "exclude"}) {
             for (String fileDir : new String[]{"File", "Dir"}) {
-                m = Pattern.compile("(.+)( " + action + "" + fileDir + "s=\")(.*?)\"(.+)", Pattern.MULTILINE | Pattern.DOTALL).matcher(output);
+                m = Pattern.compile("(.+)( " + action + fileDir + "s=\")(.*?)\"(.+)", Pattern.MULTILINE | Pattern.DOTALL).matcher(output);
                 if (m.find()) {
                     if (!m.group(3).isEmpty()) {
                         output = m.group(1) + m.group(4);
@@ -115,12 +115,12 @@ public class ConfigConverter {
         D13("bidirsyncconflictmode=\"COPY_RENAMED\"", "bidirsyncconflictmode=\"CopyRenamed\""),
         D14("bidirsyncconflictmode=\"WARN_USER\"", "bidirsyncconflictmode=\"WarnUser\""),
         D15("bidirsyncconflictmode=\"RenameCopy\"", "bidirsyncconflictmode=\"CopyRenamed\""),
-        D16("SyncMode=\"A to B\"", "SyncMode=\"" + Const.SyncMode.ABCustom.getLiteral() + "\""),
-        D17("SyncMode=\"B to A\"", "SyncMode=\"" + Const.SyncMode.BACustom.getLiteral() + "\""),
-        D18("SyncMode=\"AB\"", "SyncMode=\"" + Const.SyncMode.ABCustom.getLiteral() + "\""),
-        D19("SyncMode=\"BA\"", "SyncMode=\"" + Const.SyncMode.BACustom.getLiteral() + "\""),
-        D20("SyncMode=\"Bidirectional\"", "SyncMode=\"" + Const.SyncMode.BIMirror.getLiteral() + "\""),
-        D21("SyncMode=\"Bidirectional\"", "SyncMode=\"" + Const.SyncMode.BIMirror.getLiteral() + "\""),
+        D16("SyncMode=\"A to B\"", "SyncMode=\"" + Const.SyncMode.ABCustom.name() + "\""),
+        D17("SyncMode=\"B to A\"", "SyncMode=\"" + Const.SyncMode.BACustom.name() + "\""),
+        D18("SyncMode=\"AB\"", "SyncMode=\"" + Const.SyncMode.ABCustom.name() + "\""),
+        D19("SyncMode=\"BA\"", "SyncMode=\"" + Const.SyncMode.BACustom.name() + "\""),
+        D20("SyncMode=\"Bidirectional\"", "SyncMode=\"" + Const.SyncMode.BIMirror.name() + "\""),
+        D21("SyncMode=\"Bidirectional\"", "SyncMode=\"" + Const.SyncMode.BIMirror.name() + "\""),
         //delexcludedfiles -> delExcludedFilesB & delexcludeddirs -> delExcludeddirsB
         D22(" delexcludedfiles \\(true\\|false\\) ", " delExcludedFilesB \\(true\\|false\\) "),
         D23(" delexcludeddirs \\(true\\|false\\) ", " delExcludedDirsB \\(true\\|false\\) "),
@@ -128,8 +128,8 @@ public class ConfigConverter {
         D25(" delexcludeddirs=\"", " delExcludedDirsB=\""),
         //sync mode & sync conflict as of 1.41
         D26("SyncMode", "syncMode"),
-        D27("syncMode=\"ABIncremental\"", "syncMode=\"" + Const.SyncMode.ABMirror.getLiteral() + "\""),
-        D28("syncMode=\"BAIncremental\"", "syncMode=\"" + Const.SyncMode.BAMirror.getLiteral() + "\""),
+        D27("syncMode=\"ABIncremental\"", "syncMode=\"" + Const.SyncMode.ABMirror.name() + "\""),
+        D28("syncMode=\"BAIncremental\"", "syncMode=\"" + Const.SyncMode.BAMirror.name() + "\""),
         D29("bidirsyncconflictmode", "syncConflictResolutionMode"),
         D30("timestampdiff", "granularity"),
         D31("timestampwriteback", "timestampWriteBack"),
@@ -159,10 +159,10 @@ public class ConfigConverter {
         D54(" includeFiles=\"", "__POSTCONVERT_FILTERS__"), //does it all for all old filters
 
         //due to custom bi mode as of 1.46
-        D55("syncMode=\"BI\"", "syncMode=\"" + Const.SyncMode.BIMirror.getLiteral() + "\""),;
+        D55("syncMode=\"BI\"", "syncMode=\"" + Const.SyncMode.BIMirror.name() + "\""),;
 
-        private String from;
-        private String to;
+        private final String from;
+        private final String to;
 
         Deprecated(String from, String to) {
             this.from = from;

@@ -21,7 +21,7 @@ package edu.wright.dirsyncpro.gui.jobdialog.scheduletree.schedule;
 import edu.wright.dirsyncpro.Const;
 import edu.wright.dirsyncpro.Const.WeekDays;
 import edu.wright.dirsyncpro.job.Job;
-import edu.wright.dirsyncpro.tools.DateTool;
+import edu.wright.dirsyncpro.tools.Dates;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,10 +33,10 @@ public class ScheduleWeekly extends Schedule {
     private int interval = -1;
     private Date time;
 
-    private HashMap<WeekDays, Boolean> days;
+    private final HashMap<WeekDays, Boolean> days;
 
     public ScheduleWeekly(Job j) {
-        type = Schedule.Type.Weekly;
+        scheduleType = ScheduleType.Weekly;
         job = j;
         days = new HashMap<>();
         days.put(WeekDays.Sunday, false);
@@ -61,7 +61,7 @@ public class ScheduleWeekly extends Schedule {
     public void setInterval(int value) {
         this.interval = value;
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     private boolean isDay(WeekDays day) {
@@ -81,7 +81,7 @@ public class ScheduleWeekly extends Schedule {
     public void setSunday(boolean sunday) {
         days.put(WeekDays.Sunday, sunday);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
@@ -97,7 +97,7 @@ public class ScheduleWeekly extends Schedule {
     public void setMonday(boolean monday) {
         days.put(WeekDays.Monday, monday);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
@@ -113,7 +113,7 @@ public class ScheduleWeekly extends Schedule {
     public void setTuesday(boolean tuesday) {
         days.put(WeekDays.Tuesday, tuesday);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
@@ -129,7 +129,7 @@ public class ScheduleWeekly extends Schedule {
     public void setWednesday(boolean wednesday) {
         days.put(WeekDays.Wednesday, wednesday);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
@@ -145,7 +145,7 @@ public class ScheduleWeekly extends Schedule {
     public void setThursday(boolean thursday) {
         days.put(WeekDays.Thursday, thursday);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
@@ -161,7 +161,7 @@ public class ScheduleWeekly extends Schedule {
     public void setFriday(boolean friday) {
         days.put(WeekDays.Friday, friday);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
@@ -177,7 +177,7 @@ public class ScheduleWeekly extends Schedule {
     public void setSaturday(boolean saturday) {
         days.put(WeekDays.Saturday, saturday);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
@@ -193,26 +193,26 @@ public class ScheduleWeekly extends Schedule {
     public void setTime(Date time) {
         this.time = time;
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
      * Calculates and sets the next upcoming event date.
      */
     @Override
-    public void calculateNextEvent() {
+    public void scheduleNextEvent() {
         if (!isSaturday() && !isMonday() && !isTuesday() && !isWednesday() && !isThursday() && !isFriday() && !isSunday()) {
             // do nothing
-        } else if (time != null && interval > 0 && calculateNextEventAllowed()) {
+        } else if (time != null && interval > 0 && nextEvent_isAllowedToSchedule()) {
             Date candidNextEvent = null;
             if (nextEvent == null) {
-                candidNextEvent = DateTool.getNextDayAtThisTime(time);
-                if (hasTimeFrameFrom() && candidNextEvent.compareTo(timeFrameFrom) < 0) {
-                    candidNextEvent = timeFrameFrom;
+                candidNextEvent = Dates.getNextDayAtThisTime(time);
+                if (timeFrom_isAssigned() && candidNextEvent.compareTo(timeFrom) < 0) {
+                    candidNextEvent = timeFrom;
                 }
             } else {
                 // we already had a nextEvent, move to the next day
-                candidNextEvent = DateTool.add(nextEvent, Calendar.DAY_OF_MONTH, 1);
+                candidNextEvent = Dates.add(nextEvent, Calendar.DAY_OF_MONTH, 1);
             }
             Calendar cal = Calendar.getInstance();
             cal.setTime(candidNextEvent);

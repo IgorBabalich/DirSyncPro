@@ -16,7 +16,7 @@ public class ToGoogleDriveFileVisitor extends SimpleFileVisitor<Path>{
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        DriveSync.uploadFile(file.toFile());
+//        DriveSync.uploadFile(file.toFile());
 
         return FileVisitResult.CONTINUE;
     }

@@ -32,7 +32,7 @@ import edu.wright.dirsyncpro.gui.jobdialog.scheduletree.schedule.ScheduleOnce;
 import edu.wright.dirsyncpro.gui.jobdialog.scheduletree.schedule.ScheduleWeekly;
 import edu.wright.dirsyncpro.gui.swing.MyJTabbedPane;
 import edu.wright.dirsyncpro.job.Job;
-import edu.wright.dirsyncpro.tools.DateTool;
+import edu.wright.dirsyncpro.tools.Dates;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
@@ -115,12 +115,12 @@ public class ScheduleDialog extends ScheduleDialogObjects {
         boolean isEdit = (schedule != null);
         if (isEdit) {
             //edit
-            boolean once = schedule.getType() == Schedule.Type.Once;
-            boolean hourly = schedule.getType() == Schedule.Type.Hourly;
-            boolean minutely = schedule.getType() == Schedule.Type.Minutely;
-            boolean daily = schedule.getType() == Schedule.Type.Daily;
-            boolean weekly = schedule.getType() == Schedule.Type.Weekly;
-            boolean monthly = schedule.getType() == Schedule.Type.Monthly;
+            boolean once = schedule.getType() == Schedule.ScheduleType.Once;
+            boolean hourly = schedule.getType() == Schedule.ScheduleType.Hourly;
+            boolean minutely = schedule.getType() == Schedule.ScheduleType.Minutely;
+            boolean daily = schedule.getType() == Schedule.ScheduleType.Daily;
+            boolean weekly = schedule.getType() == Schedule.ScheduleType.Weekly;
+            boolean monthly = schedule.getType() == Schedule.ScheduleType.Monthly;
 
             scheduleOnceRadioButton.setSelected(once);
             scheduleMinutelyRadioButton.setSelected(minutely);
@@ -129,24 +129,24 @@ public class ScheduleDialog extends ScheduleDialogObjects {
             scheduleWeeklyRadioButton.setSelected(weekly);
             scheduleMonthlyRadioButton.setSelected(monthly);
 
-            if (schedule.getTimeFrameFrom().compareTo(Const.NonDate) == 0) {
+            if (schedule.getTimeFrom().compareTo(Const.NonDate) == 0) {
                 scheduleTimeFrameFromCheckBox.setSelected(false);
-                Date date = DateTool.getNextCompleteHour();
+                Date date = Dates.getNextCompleteHour();
                 scheduleTimeFrameFromTextField.setText((new SimpleDateFormat(Const.DefaultDateFormat)).format(date));
                 Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(new MouseEvent(scheduleTimeFrameFromTextField, MouseEvent.MOUSE_CLICKED, 0, 0, -1, -1, 1, false));
 
             } else {
                 scheduleTimeFrameFromCheckBox.setSelected(true);
-                scheduleTimeFrameFromTextField.setText((new SimpleDateFormat(Const.DefaultDateFormat)).format(schedule.getTimeFrameFrom()));
+                scheduleTimeFrameFromTextField.setText((new SimpleDateFormat(Const.DefaultDateFormat)).format(schedule.getTimeFrom()));
             }
-            if (schedule.getTimeFrameTo().compareTo(Const.NonDate) == 0) {
+            if (schedule.getTimeTo().compareTo(Const.NonDate) == 0) {
                 scheduleTimeFrameToCheckBox.setSelected(false);
-                Date date = DateTool.getNextCompleteHour();
+                Date date = Dates.getNextCompleteHour();
                 scheduleTimeFrameToTextField.setText((new SimpleDateFormat(Const.DefaultDateFormat)).format(date));
                 Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(new MouseEvent(scheduleTimeFrameToTextField, MouseEvent.MOUSE_CLICKED, 0, 0, -1, -1, 1, false));
             } else {
                 scheduleTimeFrameToCheckBox.setSelected(true);
-                scheduleTimeFrameToTextField.setText((new SimpleDateFormat(Const.DefaultDateFormat)).format(schedule.getTimeFrameTo()));
+                scheduleTimeFrameToTextField.setText((new SimpleDateFormat(Const.DefaultDateFormat)).format(schedule.getTimeTo()));
             }
 
             if (once) {
@@ -203,7 +203,7 @@ public class ScheduleDialog extends ScheduleDialogObjects {
             scheduleTimeFrameFromCheckBox.setSelected(false);
             scheduleTimeFrameToCheckBox.setSelected(false);
 
-            Date date = DateTool.getNextCompleteHour();
+            Date date = Dates.getNextCompleteHour();
             scheduleTimeFrameFromTextField.setText((new SimpleDateFormat(Const.DefaultDateFormat)).format(date));
             Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(new MouseEvent(scheduleTimeFrameFromTextField, MouseEvent.MOUSE_CLICKED, 0, 0, -1, -1, 1, false));
             scheduleTimeFrameToTextField.setText((new SimpleDateFormat(Const.DefaultDateFormat)).format(date));
@@ -291,15 +291,15 @@ public class ScheduleDialog extends ScheduleDialogObjects {
 
         try {
             if (scheduleTimeFrameFromCheckBox.isSelected()) {
-                schedule.setTimeFrameFrom((new SimpleDateFormat(Const.DefaultDateFormat)).parse(scheduleTimeFrameFromTextField.getText()));
+                schedule.setTimeFrom((new SimpleDateFormat(Const.DefaultDateFormat)).parse(scheduleTimeFrameFromTextField.getText()));
             } else {
-                schedule.setTimeFrameFrom(Const.NonDate);
+                schedule.setTimeFrom(Const.NonDate);
             }
 
             if (scheduleTimeFrameToCheckBox.isSelected()) {
-                schedule.setTimeFrameTo((new SimpleDateFormat(Const.DefaultDateFormat)).parse(scheduleTimeFrameToTextField.getText()));
+                schedule.setTimeTo((new SimpleDateFormat(Const.DefaultDateFormat)).parse(scheduleTimeFrameToTextField.getText()));
             } else {
-                schedule.setTimeFrameTo(Const.NonDate);
+                schedule.setTimeTo(Const.NonDate);
             }
         } catch (ParseException e) {
             //none; will not happen

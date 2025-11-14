@@ -19,7 +19,7 @@
 package edu.wright.dirsyncpro.gui.jobdialog.scheduletree.schedule;
 
 import edu.wright.dirsyncpro.job.Job;
-import edu.wright.dirsyncpro.tools.DateTool;
+import edu.wright.dirsyncpro.tools.Dates;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -29,7 +29,7 @@ public class ScheduleMinutely extends Schedule {
     private int interval = -1;
 
     public ScheduleMinutely(Job j) {
-        type = Schedule.Type.Minutely;
+        scheduleType = ScheduleType.Minutely;
         job = j;
     }
 
@@ -46,23 +46,23 @@ public class ScheduleMinutely extends Schedule {
     public void setInterval(int value) {
         this.interval = value;
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
      * Calculates and sets the next upcoming event date.
      */
     @Override
-    public void calculateNextEvent() {
-        if (interval > 0 && calculateNextEventAllowed()) {
+    public void scheduleNextEvent() {
+        if (interval > 0 && nextEvent_isAllowedToSchedule()) {
             Date candidNextEvent = null;
             if (nextEvent == null) {
                 candidNextEvent = new Date();
-                if (hasTimeFrameFrom() && candidNextEvent.compareTo(timeFrameFrom) < 0) {
-                    candidNextEvent = timeFrameFrom;
+                if (timeFrom_isAssigned() && candidNextEvent.compareTo(timeFrom) < 0) {
+                    candidNextEvent = timeFrom;
                 }
             } else {
-                candidNextEvent = DateTool.add(nextEvent, Calendar.MINUTE, interval);
+                candidNextEvent = Dates.add(nextEvent, Calendar.MINUTE, interval);
             }
             setNextEvent(candidNextEvent);
         }

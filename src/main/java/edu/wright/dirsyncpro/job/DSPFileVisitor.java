@@ -5,7 +5,7 @@ import edu.wright.dirsyncpro.DirSyncPro;
 import edu.wright.dirsyncpro.gui.jobdialog.filtertree.filter.FilterSet;
 import edu.wright.dirsyncpro.sync.Sync;
 import edu.wright.dirsyncpro.sync.SyncPair;
-import edu.wright.dirsyncpro.tools.DateTool;
+import edu.wright.dirsyncpro.tools.Dates;
 import edu.wright.dirsyncpro.tools.FileTools;
 import edu.wright.dirsyncpro.tools.TextFormatTool;
 import java.io.File;
@@ -39,22 +39,22 @@ class DSPFileVisitor extends SimpleFileVisitor<Path> {
         // get actual path
         String path = srcFile.toAbsolutePath().toString();
         // delete source path from actual path
-        String cut = path.substring(srcPath.toAbsolutePath().toString().length(), path.length());
+        String cut = path.substring(srcPath.toAbsolutePath().toString().length());
 
         if (!cut.startsWith(File.separator)) {
             cut = File.separator + cut;
         }
         // add destination path with remaining actual path
-        String newPath = dstPath.toAbsolutePath().toString() + cut;
+        String newPath = dstPath.toAbsolutePath() + cut;
 
         return new File(newPath).toPath();
     }
 
-    private FilterSet filters;
-    private boolean ab;
+    private final FilterSet filters;
+    private final boolean ab;
     private int depth;
     private boolean deletionAnalysis;
-    private Job job;
+    private final Job job;
 
     public DSPFileVisitor(FilterSet filters, boolean ab, Job job) {
         super();
@@ -199,7 +199,7 @@ class DSPFileVisitor extends SimpleFileVisitor<Path> {
                 boolean fileAIsLarger = (fASize > fBSize);
                 boolean fileBIsLarger = (fASize < fBSize);
 
-                int modCompare = DateTool.cmpDates(fADate, fBDate, job.getGranularity(), job.isIgnoreDaylightSavingGranularity());
+                int modCompare = Dates.cmpDates(fADate, fBDate, job.getGranularity(), job.isIgnoreDaylightSavingGranularity());
 
                 boolean fileASameDatefileB = (modCompare == 0);
                 boolean fileAIsModified = (modCompare == -1);

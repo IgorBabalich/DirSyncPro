@@ -95,7 +95,7 @@ public class Filter implements Comparable<Filter>, Cloneable {
         ByFileOwnership("/icons/group.png"),
         ByFilePermissions("/icons/permissions.png");
 
-        private Icon icon;
+        private final Icon icon;
 
         Type(String iconFile) {
             this.icon = new ImageIcon(Const.class.getResource(iconFile));
@@ -110,7 +110,7 @@ public class Filter implements Comparable<Filter>, Cloneable {
         Include("/icons/includeFile.png"),
         Exclude("/icons/excludeFile.png");
 
-        private Icon icon;
+        private final Icon icon;
 
         Action(String iconFile) {
             this.icon = new ImageIcon(Const.class.getResource(iconFile));

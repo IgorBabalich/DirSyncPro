@@ -42,12 +42,12 @@ public abstract class JobObject {
     // Conflict mode for the bidirectional sync
     protected Const.SyncConflictResolutionMode syncConflictResolutionMode;
     protected Const.CompareMode syncCompareMode;
-    /*
-         * Mirror implicates: copyAll=false, copyNew=true, copyLarger=false, copyModified=true, copyLargerModified=false, deleteFiles=true, deleteDirs=true, filterSet={}, compareMode=CompareFileSizesDates;
-		 * Full implicates: copyAll=true, copyNew=false, copyLarger=false, copyModified=false, copyLargerModified=false, deleteFiles=true, deleteDirs=true, filterSet={}, compareMode=CompareFileSizesDates;
-		 * Contribute implicates: copyAll=false, copyNew=true, copyLarger=false, copyModified=false, copyLargerModified=false, deleteFiles=false, deleteDirs=false, filterSet={}, compareMode=CompareFileSizesDates;
-		 * Custom initializes like Mirror but could be change any option.
-     */
+/*
+  * Mirror implicates: copyAll=false, copyNew=true, copyLarger=false, copyModified=true, copyLargerModified=false, deleteFiles=true, deleteDirs=true, filterSet={}, compareMode=CompareFileSizesDates;
+  * Full implicates: copyAll=true, copyNew=false, copyLarger=false, copyModified=false, copyLargerModified=false, deleteFiles=true, deleteDirs=true, filterSet={}, compareMode=CompareFileSizesDates;
+  * Contribute implicates: copyAll=false, copyNew=true, copyLarger=false, copyModified=false, copyLargerModified=false, deleteFiles=false, deleteDirs=false, filterSet={}, compareMode=CompareFileSizesDates;
+  * Custom initializes like Mirror but could be change any option.
+*/
     // source and destination directories
     protected String dirA = "";
     protected Path pathA;
@@ -568,7 +568,7 @@ public abstract class JobObject {
     public void addSchedule(Schedule sched) {
         schedules.add(sched);
         for (Schedule sch : schedules) {
-            sch.calculateNextEvent();
+            sch.scheduleNextEvent();
         }
         Collections.sort(schedules);
     }

@@ -40,6 +40,7 @@ import edu.wright.dirsyncpro.job.Job;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Stack;
@@ -53,9 +54,9 @@ public class XmlWriter {
 
     private final int INDENTATION = 2;
 
-    private OutputStream out;
+    private final OutputStream out;
 
-    private Stack stack;
+    private final Stack stack;
 
     private int indent;
 
@@ -94,7 +95,7 @@ public class XmlWriter {
             tag += addAttr(Xml.ATTR_ENABLED, job.isEnabled());
             tag += addAttr(Xml.ATTR_SRC, job.getDirA());
             tag += addAttr(Xml.ATTR_DST, job.getDirB());
-            tag += addAttr(Xml.ATTR_SYNC_MODE, job.getSyncMode().getLiteral());
+            tag += addAttr(Xml.ATTR_SYNC_MODE, job.getSyncMode().name());
             tag += addAttr(Xml.ATTR_WITHSUBFOLDERS, job.isRecursive());
             tag += addAttr(Xml.ATTR_VERIFY, job.isVerify());
 
@@ -135,34 +136,34 @@ public class XmlWriter {
                 tag = Xml.TAG_SCHEDULE;
                 switch (sched.getType()) {
                     case Once:
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.Type.Once.toString());
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameFrom()));
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameTo()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.ScheduleType.Once.toString());
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrom()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeTo()));
                         tag += addAttr(Xml.ATTR_SCHEDULE_DATE, (new SimpleDateFormat(Const.DefaultDateFormat)).format(((ScheduleOnce) sched).getDate()));
                         break;
                     case Minutely:
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.Type.Minutely.toString());
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameFrom()));
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameTo()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.ScheduleType.Minutely.toString());
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrom()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeTo()));
                         tag += addAttr(Xml.ATTR_SCHEDULE_INTERVAL, ((ScheduleMinutely) sched).getInterval());
                         break;
                     case Hourly:
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.Type.Hourly.toString());
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameFrom()));
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameTo()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.ScheduleType.Hourly.toString());
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrom()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeTo()));
                         tag += addAttr(Xml.ATTR_SCHEDULE_INTERVAL, ((ScheduleHourly) sched).getInterval());
                         break;
                     case Daily:
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.Type.Daily.toString());
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameFrom()));
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameTo()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.ScheduleType.Daily.toString());
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrom()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeTo()));
                         tag += addAttr(Xml.ATTR_SCHEDULE_INTERVAL, ((ScheduleDaily) sched).getInterval());
                         tag += addAttr(Xml.ATTR_SCHEDULE_TIME, (new SimpleDateFormat(Const.DefaultTimeFormat)).format(((ScheduleDaily) sched).getTime()));
                         break;
                     case Weekly:
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.Type.Weekly.toString());
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameFrom()));
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameTo()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.ScheduleType.Weekly.toString());
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrom()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeTo()));
                         tag += addAttr(Xml.ATTR_SCHEDULE_INTERVAL, ((ScheduleWeekly) sched).getInterval());
                         tag += addAttr(Xml.ATTR_SCHEDULE_TIME, (new SimpleDateFormat(Const.DefaultTimeFormat)).format(((ScheduleWeekly) sched).getTime()));
                         tag += addAttr(Xml.ATTR_SCHEDULE_MONDAY, ((ScheduleWeekly) sched).isMonday() + "");
@@ -174,9 +175,9 @@ public class XmlWriter {
                         tag += addAttr(Xml.ATTR_SCHEDULE_SUNDAY, ((ScheduleWeekly) sched).isSunday() + "");
                         break;
                     case Monthly:
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.Type.Monthly.toString());
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameFrom()));
-                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrameTo()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TYPE, Schedule.ScheduleType.Monthly.toString());
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeFrom()));
+                        tag += addAttr(Xml.ATTR_SCHEDULE_TIMEFRAME_TO, (new SimpleDateFormat(Const.DefaultDateFormat)).format(sched.getTimeTo()));
                         tag += addAttr(Xml.ATTR_SCHEDULE_TIME, (new SimpleDateFormat(Const.DefaultTimeFormat)).format(((ScheduleMonthly) sched).getTime()));
                         tag += addAttr(Xml.ATTR_SCHEDULE_DAY, ((ScheduleMonthly) sched).getDay());
                         tag += addAttr(Xml.ATTR_SCHEDULE_JANUARY, ((ScheduleMonthly) sched).isJanuary() + "");
@@ -383,7 +384,7 @@ public class XmlWriter {
     }
 
     private void write(String s) throws IOException {
-        out.write(s.getBytes("UTF-8"));
+        out.write(s.getBytes(StandardCharsets.UTF_8));
     }
 
     private void writeln() throws IOException {

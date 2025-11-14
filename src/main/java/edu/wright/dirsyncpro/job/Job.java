@@ -23,9 +23,7 @@ package edu.wright.dirsyncpro.job;
 import edu.wright.dirsyncpro.Const;
 import edu.wright.dirsyncpro.Const.IconKey;
 import edu.wright.dirsyncpro.Const.SymLinkMode;
-import edu.wright.dirsyncpro.Const.SyncConflictResolutionMode;
 import edu.wright.dirsyncpro.Const.SyncMode;
-import edu.wright.dirsyncpro.Const.SyncPairStatus;
 import edu.wright.dirsyncpro.DirSyncPro;
 import edu.wright.dirsyncpro.exceptions.IncompleteConfigurationException;
 import edu.wright.dirsyncpro.gui.jobdialog.filtertree.filter.Filter;
@@ -34,25 +32,14 @@ import edu.wright.dirsyncpro.gui.jobdialog.filtertree.filter.FilterSet;
 import edu.wright.dirsyncpro.gui.jobdialog.scheduletree.schedule.ScheduleEngine;
 import edu.wright.dirsyncpro.sync.RealtimeListener;
 import edu.wright.dirsyncpro.sync.Sync;
-import edu.wright.dirsyncpro.sync.Sync.SyncError;
-import edu.wright.dirsyncpro.sync.SyncPair;
-import edu.wright.dirsyncpro.tools.DateTool;
-import edu.wright.dirsyncpro.tools.FileTools;
 import edu.wright.dirsyncpro.tools.Log;
-import edu.wright.dirsyncpro.tools.TextFormatTool;
 import edu.wright.dirsyncpro.tools.WildcardTools;
-import edu.wright.google.api.services.drive.DriveSync;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
@@ -231,11 +218,11 @@ public class Job extends JobObject implements Cloneable {
     private void syncFromGoogleDrive() throws IncompleteConfigurationException {
         File dirB = retrieveDirB();
 
-        try {
-            DriveSync.downloadFiles(dirB.getAbsolutePath());
-        } catch (IOException exc) {
-            getLog().printMinimal("Unable to analyze: " + this.name + " (" + exc.getMessage() + ")", IconKey.Error);
-        }
+//        try {
+//            DriveSync.downloadFiles(dirB.getAbsolutePath());
+//        } catch (IOException exc) {
+//            getLog().printMinimal("Unable to analyze: " + this.name + " (" + exc.getMessage() + ")", IconKey.Error);
+//        }
     }
 
     private void syncToGoogleDrive() throws IncompleteConfigurationException {
@@ -395,7 +382,7 @@ public class Job extends JobObject implements Cloneable {
 
         if (filterSet.hasFilters()) {
             for (Filter filt : filterSet.getFilters()) {
-                getLog().printExcessive("  Filter: " + filt.getAction().toString() + " " + filt.toString(), Const.IconKey.Info);
+                getLog().printExcessive("  Filter: " + filt.getAction().toString() + " " + filt, Const.IconKey.Info);
             }
         }
 

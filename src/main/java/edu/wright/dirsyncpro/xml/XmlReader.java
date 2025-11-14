@@ -58,7 +58,7 @@ import java.util.List;
 public class XmlReader extends DefaultHandler {
 
     private String logFileName;
-    private List<Job> jobs = new ArrayList<>();
+    private final List<Job> jobs = new ArrayList<>();
 
     /**
      * Reads data from the given XML file. The data can be retreived via the
@@ -239,44 +239,44 @@ public class XmlReader extends DefaultHandler {
             // Get the last loaded job
             job = jobs.get(jobs.size() - 1);
             att = atts.getValue(Xml.ATTR_SCHEDULE_TYPE);
-            if (att.equals(Schedule.Type.Once.toString())) {
+            if (att.equals(Schedule.ScheduleType.Once.toString())) {
                 sched = new ScheduleOnce(job);
                 try {
-                    sched.setTimeFrameFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
-                    sched.setTimeFrameTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
+                    sched.setTimeFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
+                    sched.setTimeTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
                     ((ScheduleOnce) sched).setDate((atts.getValue(Xml.ATTR_SCHEDULE_DATE) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_DATE)) : Const.NonDate);
                 } catch (ParseException e) {
                 }
-            } else if (att.equals(Schedule.Type.Minutely.toString())) {
+            } else if (att.equals(Schedule.ScheduleType.Minutely.toString())) {
                 sched = new ScheduleMinutely(job);
                 try {
-                    sched.setTimeFrameFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
-                    sched.setTimeFrameTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
+                    sched.setTimeFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
+                    sched.setTimeTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
                     ((ScheduleMinutely) sched).setInterval(atts.getValue(Xml.ATTR_SCHEDULE_INTERVAL) != null ? Integer.decode(atts.getValue(Xml.ATTR_SCHEDULE_INTERVAL)) : 1);
                 } catch (ParseException e) {
                 }
-            } else if (att.equals(Schedule.Type.Hourly.toString())) {
+            } else if (att.equals(Schedule.ScheduleType.Hourly.toString())) {
                 sched = new ScheduleHourly(job);
                 try {
-                    sched.setTimeFrameFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
-                    sched.setTimeFrameTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
+                    sched.setTimeFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
+                    sched.setTimeTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
                     ((ScheduleHourly) sched).setInterval(atts.getValue(Xml.ATTR_SCHEDULE_INTERVAL) != null ? Integer.decode(atts.getValue(Xml.ATTR_SCHEDULE_INTERVAL)) : 1);
                 } catch (ParseException e) {
                 }
-            } else if (att.equals(Schedule.Type.Daily.toString())) {
+            } else if (att.equals(Schedule.ScheduleType.Daily.toString())) {
                 sched = new ScheduleDaily(job);
                 try {
-                    sched.setTimeFrameFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
-                    sched.setTimeFrameTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
+                    sched.setTimeFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
+                    sched.setTimeTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
                     ((ScheduleDaily) sched).setInterval(atts.getValue(Xml.ATTR_SCHEDULE_INTERVAL) != null ? Integer.decode(atts.getValue(Xml.ATTR_SCHEDULE_INTERVAL)) : 1);
                     ((ScheduleDaily) sched).setTime((atts.getValue(Xml.ATTR_SCHEDULE_TIME) != null) ? (new SimpleDateFormat(Const.DefaultTimeFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIME)) : Const.NonDate);
                 } catch (ParseException e) {
                 }
-            } else if (att.equals(Schedule.Type.Weekly.toString())) {
+            } else if (att.equals(Schedule.ScheduleType.Weekly.toString())) {
                 sched = new ScheduleWeekly(job);
                 try {
-                    sched.setTimeFrameFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
-                    sched.setTimeFrameTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
+                    sched.setTimeFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
+                    sched.setTimeTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
                     ((ScheduleWeekly) sched).setInterval(atts.getValue(Xml.ATTR_SCHEDULE_INTERVAL) != null ? Integer.decode(atts.getValue(Xml.ATTR_SCHEDULE_INTERVAL)) : 1);
                     ((ScheduleWeekly) sched).setTime((atts.getValue(Xml.ATTR_SCHEDULE_TIME) != null) ? (new SimpleDateFormat(Const.DefaultTimeFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIME)) : Const.NonDate);
                     ((ScheduleWeekly) sched).setSunday((atts.getValue(Xml.ATTR_SCHEDULE_SUNDAY) != null) && Boolean.valueOf(atts.getValue(Xml.ATTR_SCHEDULE_SUNDAY)));
@@ -288,11 +288,11 @@ public class XmlReader extends DefaultHandler {
                     ((ScheduleWeekly) sched).setSaturday((atts.getValue(Xml.ATTR_SCHEDULE_SATURDAY) != null) && Boolean.valueOf(atts.getValue(Xml.ATTR_SCHEDULE_SATURDAY)));
                 } catch (ParseException e) {
                 }
-            } else if (att.equals(Schedule.Type.Monthly.toString())) {
+            } else if (att.equals(Schedule.ScheduleType.Monthly.toString())) {
                 sched = new ScheduleMonthly(job);
                 try {
-                    sched.setTimeFrameFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
-                    sched.setTimeFrameTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
+                    sched.setTimeFrom((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_FROM)) : Const.NonDate);
+                    sched.setTimeTo((atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO) != null) ? (new SimpleDateFormat(Const.DefaultDateFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIMEFRAME_TO)) : Const.NonDate);
                     ((ScheduleMonthly) sched).setDay(atts.getValue(Xml.ATTR_SCHEDULE_DAY) != null ? Integer.decode(atts.getValue(Xml.ATTR_SCHEDULE_DAY)) : 1);
                     ((ScheduleMonthly) sched).setTime((atts.getValue(Xml.ATTR_SCHEDULE_TIME) != null) ? (new SimpleDateFormat(Const.DefaultTimeFormat)).parse(atts.getValue(Xml.ATTR_SCHEDULE_TIME)) : Const.NonDate);
                     ((ScheduleMonthly) sched).setJanuary(atts.getValue(Xml.ATTR_SCHEDULE_JANUARY) == null || Boolean.valueOf(atts.getValue(Xml.ATTR_SCHEDULE_JANUARY)));

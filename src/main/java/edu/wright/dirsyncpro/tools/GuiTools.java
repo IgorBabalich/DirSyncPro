@@ -37,7 +37,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class GuiTools {
 
-    private static EditorKit editorKit = (new MyStyleSheet()).getEditorKit();
+    private static final EditorKit editorKit = (new MyStyleSheet()).getEditorKit();
 
     public static void collapseAll(JTree jt) {
         // for loop should go backwards because expanding affects getRowCount()
@@ -119,7 +119,7 @@ public class GuiTools {
     public static class MyStyleSheet extends StyleSheet {
 
         HTMLEditorKit editorKit = new HTMLEditorKit();
-        private StyleSheet styles;
+        private final StyleSheet styles;
 
         public MyStyleSheet() {
             super();

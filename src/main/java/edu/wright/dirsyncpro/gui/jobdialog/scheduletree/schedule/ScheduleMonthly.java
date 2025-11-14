@@ -21,7 +21,7 @@ package edu.wright.dirsyncpro.gui.jobdialog.scheduletree.schedule;
 import edu.wright.dirsyncpro.Const;
 import edu.wright.dirsyncpro.Const.Months;
 import edu.wright.dirsyncpro.job.Job;
-import edu.wright.dirsyncpro.tools.DateTool;
+import edu.wright.dirsyncpro.tools.Dates;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,10 +33,10 @@ public class ScheduleMonthly extends Schedule {
     private int day;
     private Date time;
 
-    private HashMap<Const.Months, Boolean> months;
+    private final HashMap<Const.Months, Boolean> months;
 
     public ScheduleMonthly(Job j) {
-        type = Schedule.Type.Monthly;
+        scheduleType = ScheduleType.Monthly;
         job = j;
         months = new HashMap<>();
         months.put(Months.January, false);
@@ -57,243 +57,159 @@ public class ScheduleMonthly extends Schedule {
         return months.get(month);
     }
 
-    /**
-     * @return the january
-     */
     public boolean isJanuary() {
         return isMonth(Months.January);
     }
 
-    /**
-     * @param january the january to set
-     */
     public void setJanuary(boolean january) {
         months.put(Months.January, january);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the february
-     */
     public boolean isFebruary() {
         return isMonth(Months.February);
     }
 
-    /**
-     * @param february the february to set
-     */
     public void setFebruary(boolean february) {
         months.put(Months.February, february);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the march
-     */
     public boolean isMarch() {
         return isMonth(Months.March);
     }
 
-    /**
-     * @param march the march to set
-     */
     public void setMarch(boolean march) {
         months.put(Months.March, march);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the april
-     */
     public boolean isApril() {
         return isMonth(Months.April);
     }
 
-    /**
-     * @param april the april to set
-     */
     public void setApril(boolean april) {
         months.put(Months.April, april);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the may
-     */
     public boolean isMay() {
         return isMonth(Months.May);
     }
 
-    /**
-     * @param may the may to set
-     */
     public void setMay(boolean may) {
         months.put(Months.May, may);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the june
-     */
     public boolean isJune() {
         return isMonth(Months.June);
     }
 
-    /**
-     * @param june the june to set
-     */
     public void setJune(boolean june) {
         months.put(Months.June, june);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the july
-     */
     public boolean isJuly() {
         return isMonth(Months.July);
     }
 
-    /**
-     * @param july the july to set
-     */
     public void setJuly(boolean july) {
         months.put(Months.July, july);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the august
-     */
     public boolean isAugust() {
         return isMonth(Months.August);
     }
 
-    /**
-     * @param august the august to set
-     */
     public void setAugust(boolean august) {
         months.put(Months.August, august);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the september
-     */
     public boolean isSeptember() {
         return isMonth(Months.September);
     }
 
-    /**
-     * @param september the september to set
-     */
     public void setSeptember(boolean september) {
         months.put(Months.September, september);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the october
-     */
     public boolean isOctober() {
         return isMonth(Months.October);
     }
 
-    /**
-     * @param october the october to set
-     */
     public void setOctober(boolean october) {
         months.put(Months.October, october);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the november
-     */
     public boolean isNovember() {
         return isMonth(Months.November);
     }
 
-    /**
-     * @param november the november to set
-     */
     public void setNovember(boolean november) {
         months.put(Months.November, november);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the december
-     */
     public boolean isDecember() {
         return isMonth(Months.December);
     }
 
-    /**
-     * @param december the december to set
-     */
     public void setDecember(boolean december) {
         months.put(Months.December, december);
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the time
-     */
     public Date getTime() {
         return time;
     }
 
-    /**
-     * @param time the time to set
-     */
     public void setTime(Date time) {
         this.time = time;
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the day
-     */
     public int getDay() {
         return day;
     }
 
-    /**
-     * @param dayNumber the day to set
-     */
     public void setDay(int dayNumber) {
         this.day = dayNumber;
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
      * Calculates and sets the next upcoming event date.
      */
     @Override
-    public void calculateNextEvent() {
+    public void scheduleNextEvent() {
         if (!isJanuary() && !isFebruary() && !isMarch() && !isApril() && !isMay() && !isJune() && !isJuly() && !isAugust() && !isSeptember() && !isOctober() && !isNovember() && !isDecember()) {
             // do nothing
-        } else if (time != null && day > 0 && calculateNextEventAllowed()) {
+        } else if (time != null && day > 0 && nextEvent_isAllowedToSchedule()) {
             Date candidNextEvent = null;
             if (nextEvent == null) {
-                candidNextEvent = DateTool.getNextDateAtThisTimeAndNumber(time, day, new Date());
-                if (hasTimeFrameFrom() && candidNextEvent.compareTo(timeFrameFrom) < 0) {
-                    candidNextEvent = DateTool.getNextDateAtThisTimeAndNumber(time, day, timeFrameFrom);
+                candidNextEvent = Dates.getNextDateAtThisTimeAndNumber(time, day, new Date());
+                if (timeFrom_isAssigned() && candidNextEvent.compareTo(timeFrom) < 0) {
+                    candidNextEvent = Dates.getNextDateAtThisTimeAndNumber(time, day, timeFrom);
                 }
             } else {
                 candidNextEvent = nextEvent;

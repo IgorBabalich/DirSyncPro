@@ -32,7 +32,7 @@ public class ProgressApproximator {
     //Timer for GUI progress update
     private final javax.swing.Timer t;
     //array with approximation objects for file sizes 1, 10, 100, 1000, ..., 10^19 bytes
-    private Approximation[] approx = new Approximation[20];
+    private final Approximation[] approx = new Approximation[20];
     //size of current file
     private double curFileSize = 1;
     //best approximation value for current file

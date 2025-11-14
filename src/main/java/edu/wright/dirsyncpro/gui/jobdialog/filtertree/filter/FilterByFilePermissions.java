@@ -173,7 +173,7 @@ public class FilterByFilePermissions extends Filter {
     @Override
     public int compareTo(Filter s) {
         if (s instanceof FilterByFilePermissions) {
-            return (new Integer(permissionValue)).compareTo(((FilterByFilePermissions) s).getPermissionValue());
+            return (Integer.valueOf(permissionValue)).compareTo(((FilterByFilePermissions) s).getPermissionValue());
         } else {
             return super.compareTo(s);
         }

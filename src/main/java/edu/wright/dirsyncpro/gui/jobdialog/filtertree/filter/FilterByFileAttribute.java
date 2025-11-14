@@ -130,7 +130,7 @@ public class FilterByFileAttribute extends Filter {
     @Override
     public int compareTo(Filter s) {
         if (s instanceof FilterByFileAttribute) {
-            return (new Integer(this.toValue())).compareTo(((FilterByFileAttribute) s).toValue());
+            return (Integer.valueOf(this.toValue())).compareTo(((FilterByFileAttribute) s).toValue());
         } else {
             return super.compareTo(s);
         }

@@ -93,7 +93,7 @@ public class Sync {
     private boolean optionsChanged = false;
     private boolean alreadyAnalyzed = false;
     private SyncQ syncQ;
-    private ScheduleEngine scheduleEngine;
+    private final ScheduleEngine scheduleEngine;
 
     /**
      * Initializes a new synchronization.
@@ -862,7 +862,7 @@ public class Sync {
     public int getNextJobPostfixStringIndex(String s) {
         int max = 1;
         for (Job job : jobs) {
-            if (job.getName().indexOf(s, 0) >= 0) {
+            if (job.getName().indexOf(s) >= 0) {
                 String n = job.getName().substring(s.length());
                 try {
                     int i = Integer.parseInt(n);
@@ -1018,7 +1018,7 @@ public class Sync {
         ErrorFatal(2),
         Aborted(3);
 
-        private int exitCode;
+        private final int exitCode;
 
         SyncError(int ec) {
             exitCode = ec;

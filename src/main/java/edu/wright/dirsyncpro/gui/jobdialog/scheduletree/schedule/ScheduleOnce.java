@@ -20,7 +20,7 @@ package edu.wright.dirsyncpro.gui.jobdialog.scheduletree.schedule;
 
 import edu.wright.dirsyncpro.Const;
 import edu.wright.dirsyncpro.job.Job;
-import edu.wright.dirsyncpro.tools.DateTool;
+import edu.wright.dirsyncpro.tools.Dates;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,7 +31,7 @@ public class ScheduleOnce extends Schedule {
     private Date date;
 
     public ScheduleOnce(Job j) {
-        type = Schedule.Type.Once;
+        scheduleType = ScheduleType.Once;
         job = j;
     }
 
@@ -48,17 +48,17 @@ public class ScheduleOnce extends Schedule {
     public void setDate(Date date) {
         this.date = date;
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
      * Calculates and sets the next upcoming event date.
      */
     @Override
-    public void calculateNextEvent() {
-        if (date != null && calculateNextEventAllowed()) {
+    public void scheduleNextEvent() {
+        if (date != null && nextEvent_isAllowedToSchedule()) {
             Date candidNextEvent = null;
-            if (date.compareTo(DateTool.add(new Date(), Calendar.DAY_OF_MONTH, -1)) >= 0) {
+            if (date.compareTo(Dates.add(new Date(), Calendar.DAY_OF_MONTH, -1)) >= 0) {
                 candidNextEvent = date;
             }
             setNextEvent(candidNextEvent);

@@ -82,7 +82,7 @@ public class FilterByFileSize extends Filter {
     public int compareTo(Filter s) {
         if (s instanceof FilterByFileSize) {
             if (fileSizeType == ((FilterByFileSize) s).getFileSizeType()) {
-                return (new Long(value)).compareTo(((FilterByFileSize) s).getValue());
+                return (Long.valueOf(value)).compareTo(((FilterByFileSize) s).getValue());
             } else {
                 return fileSizeType.compareTo(((FilterByFileSize) s).getFileSizeType());
             }

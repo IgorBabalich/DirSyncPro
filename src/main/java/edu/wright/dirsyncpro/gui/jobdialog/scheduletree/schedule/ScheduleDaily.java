@@ -20,7 +20,7 @@ package edu.wright.dirsyncpro.gui.jobdialog.scheduletree.schedule;
 
 import edu.wright.dirsyncpro.Const;
 import edu.wright.dirsyncpro.job.Job;
-import edu.wright.dirsyncpro.tools.DateTool;
+import edu.wright.dirsyncpro.tools.Dates;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,56 +32,44 @@ public class ScheduleDaily extends Schedule {
     private Date time = null;
 
     public ScheduleDaily(Job j) {
-        type = Schedule.Type.Daily;
+        scheduleType = ScheduleType.Daily;
         job = j;
     }
 
-    /**
-     * @return the interval
-     */
     public int getInterval() {
         return interval;
     }
 
-    /**
-     * @param value the interval to set
-     */
     public void setInterval(int value) {
         this.interval = value;
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
-    /**
-     * @return the time
-     */
     public Date getTime() {
         return time;
     }
 
-    /**
-     * @param time the time to set
-     */
     public void setTime(Date time) {
         this.time = time;
         nextEvent = null;
-        calculateNextEvent();
+        scheduleNextEvent();
     }
 
     /**
      * Calculates and sets the next upcoming event date.
      */
     @Override
-    public void calculateNextEvent() {
-        if (time != null && interval > 0 && calculateNextEventAllowed()) {
+    public void scheduleNextEvent() {
+        if (time != null && interval > 0 && nextEvent_isAllowedToSchedule()) {
             Date candidNextEvent = null;
             if (nextEvent == null) {
-                candidNextEvent = DateTool.getNextDayAtThisTime(time);
-                if (hasTimeFrameFrom() && candidNextEvent.compareTo(timeFrameFrom) < 0) {
-                    candidNextEvent = timeFrameFrom;
+                candidNextEvent = Dates.getNextDayAtThisTime(time);
+                if (timeFrom_isAssigned() && candidNextEvent.compareTo(timeFrom) < 0) {
+                    candidNextEvent = timeFrom;
                 }
             } else {
-                candidNextEvent = DateTool.add(nextEvent, Calendar.DAY_OF_MONTH, interval);
+                candidNextEvent = Dates.add(nextEvent, Calendar.DAY_OF_MONTH, interval);
             }
             setNextEvent(candidNextEvent);
         }

@@ -320,7 +320,7 @@ public class JobTree extends DefaultMutableTreeNode {
         Schedule("/icons/calendar.png"),
         ScheduleItem("/icons/calendar.png");
 
-        private Icon icon;
+        private final Icon icon;
 
         Type(String iconFile) {
             this.icon = new ImageIcon(Const.class.getResource(iconFile));

@@ -34,8 +34,8 @@ import java.util.Map;
 public class J7CopierFactory {
     //copier objects for copy()
 
-    private static Map<FileSystemProvider, J7Copier> nativeCopiers = new HashMap<>();
-    private static FallbackCopier fallbackCopier = new FallbackCopier();
+    private static final Map<FileSystemProvider, J7Copier> nativeCopiers = new HashMap<>();
+    private static final FallbackCopier fallbackCopier = new FallbackCopier();
 
     public static J7Copier getCopier(Path srcPath, Path dstPath) {
         FileSystemProvider srcFSP = srcPath.getFileSystem().provider(), dstFSP = dstPath.getFileSystem().provider();

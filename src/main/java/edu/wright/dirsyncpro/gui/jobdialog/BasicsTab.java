@@ -36,13 +36,13 @@ public final class BasicsTab extends JPanel {
     private static final String destfieldTooltip = "<html>The destination directory. You can use the following wildcards:<br>\"<b>&lt;date</b>&gt;\" for the current date (or \"<b>&lt;DD</b>&gt;\" for day, \"<b>&lt;MM</b>&gt;\" for month, and \"<b>&lt;YYYY</b>&gt;\" for year) and<br>\"<b>&lt;time</b>&gt;\" for the current time (or \"<b>&lt;hh</b>&gt;\" for hour, \"<b>&lt;mm</b>&gt;\" for minute, and \"<b>&lt;ss</b>&gt;\" for second).</html>";
     private static final String sourcefieldTooltip = "<html>The source directory. You can use the following wildcards:<br />\"<b>&lt;username&gt;</b>\" for the name of the current user, and <br />\"<b>&lt;userhome&gt;</b>\" for the home directory of the current user.</html>";
 
-    private JComboBox<Const.SyncMode> syncModeComboBox = new JComboBox<>();
-    private JCheckBox dirWithSubfoldersCheckBox = new JCheckBox();
+    private final JComboBox<Const.SyncMode> syncModeComboBox = new JComboBox<>();
+    private final JCheckBox dirWithSubfoldersCheckBox = new JCheckBox();
     private JTextField dirNameField = new JTextField();
     private JTextField dirDstField = new JTextField();
     private JTextField dirSrcField = new JTextField();
-    private JobDialogObjects jobDialog;
-    private JPanel pathsPanel = new JPanel();
+    private final JobDialogObjects jobDialog;
+    private final JPanel pathsPanel = new JPanel();
 
     public BasicsTab(JobDialogObjects jobDialog) {
         this.jobDialog = jobDialog;
@@ -63,7 +63,7 @@ public final class BasicsTab extends JPanel {
         JPanel syncModeJPanel = generateTitledPanel("Sync using this mode");
         JPanel infoPanel = generateTitledPanel("Information");
 
-        JPanel jPanels[] = new JPanel[3];
+        JPanel[] jPanels = new JPanel[3];
 
         for (int i = 0; i < jPanels.length; i++) {
             jPanels[i] = new JPanel();

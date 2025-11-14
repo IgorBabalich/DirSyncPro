@@ -53,12 +53,9 @@ public class DSPFileFilter extends FileFilter {
         }
 
         // show all files with the right extension
-        if (f.getAbsolutePath().toLowerCase().endsWith("." + extension)) {
-            return true;
-        }
+       return f.getAbsolutePath().toLowerCase().endsWith("." + extension);
 
         // hide everything else (files with a wrong extension)
-        return false;
     }
 
     /**
